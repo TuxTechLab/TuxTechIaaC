@@ -1,0 +1,25 @@
+services:
+  gitea-scm:
+    image: gitea/gitea:latest
+    # container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    networks:
+      - gitea-nw
+    volumes:
+      - gitea-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "${GITEA_PORT_EXTERNAL}:${GITEA_PORT_INTERNAL}"
+      - "${GITEA_SSH_PORT_EXTERNAL}:${GITEA_SSH_PORT_INTERNAL}"
+
+networks:
+  gitea-nw:
+    driver: "overlay"
+    attachable: true
+
+volumes:
+  gitea-data:

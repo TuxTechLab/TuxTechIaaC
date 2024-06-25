@@ -1,0 +1,47 @@
+networks:
+  sonarnet-overlay:
+    attachable: true
+    driver: overlay
+
+volumes:
+  sonarqube_data:
+    driver: local
+  sonarqube_extensions:
+    driver: local
+  sonarqube_logs:
+    driver: local
+  sonarqube_temp:
+    driver: local
+  postgres_data:
+    driver: local
+
+services:
+  sonarqube:
+    image: sonarqube:latest
+    ports:
+      - ${SONARQUBE_PORT_EXTERNAL}:${SONARQUBE_PORT_INTERNAL}
+      # Optional: Use if you want to connect with SonarQube scanner
+      # Enable the below line
+      # - ${SONARQUBE_SCANNER_PORT_EXTERNAL}:${SONARQUBE_SCANNER_PORT_INTERNAL}
+    networks:
+      - sonarnet-overlay
+    environment:
+      - SONARQUBE_JDBC_URL=${SONARQUBE_JDBC_URL}
+      - SONARQUBE_JDBC_USERNAME=${SONARQUBE_JDBC_USERNAME}
+      - SONARQUBE_JDBC_PASSWORD=${SONARQUBE_JDBC_PASSWORD}
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_temp:/opt/sonarqube/temp
+
+  sonarqube-db:
+    image: postgres:latest
+    networks:
+      - sonarnet-overlay
+    environment:
+      - POSTGRES_USER=${SONARQUBE_JDBC_USERNAME}
+      - POSTGRES_PASSWORD=${SONARQUBE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${SONARQUBE_POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data

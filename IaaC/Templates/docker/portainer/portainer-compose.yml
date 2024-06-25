@@ -1,0 +1,29 @@
+services:
+  portainer-controlplane:
+    image: portainer/portainer-ce:latest
+    ports:
+      - ${PORTAINER_PORT_EXTERNAL}:${PORTAINER_PORT_INTERNAL}
+      - ${PORTAINER_SSH_PORT_EXTERNAL}:${PORTAINER_SSH_PORT_INTERNAL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+  
+  portainar-agent:
+    image: portainer/agent:2.19.4
+    restart: always
+    ports:
+      - ${PORTAINER_AGENT_PORT_EXTERNAL}:${PORTAINER_AGENT_PORT_INTERNAL}
+      - ${PORTAINER_AGENT_SSH_PORT_EXTERNAL}:${PORTAINER_AGENT_SSH_PORT_INTERNAL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+    networks:
+      - portainer-nw
+
+networks:
+  portainer-nw:
+    driver: "overlay"
+    attachable: true
+
+volumes:
+  portainer-data:

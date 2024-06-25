@@ -1,0 +1,74 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    restart: unless-stopped
+    env_file:
+      - .env
+    privileged:  true
+    user: "root"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: "700M"
+        reservations:
+          cpus: "1"
+          memory: "500M"
+    # Enable below line, in-case using as Compose
+    #   replicas: 1
+    ports: 
+      - "${JENKINS_PORT_EXTERNAL}:${JENKINS_PORT_INTERNAL}"
+    volumes:
+      - "jenkins-data:/var/jenkins_home"
+    # Configure the below only if you are using Traefik as L7 Proxy.
+    # depends_on:
+    #   - "traefik"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.jenkins.tls=true"
+    #   - "traefik.http.routers.jenkins.rule=Host(`${JENKINS_HOST_NAME}`)"
+    #   - "traefik.http.routers.jenkins.entrypoints=websecure"
+    #   - "traefik.http.routers.jenkins.tls.certresolver=staging"
+
+  jenkins-agent:
+    build:
+      context: .
+      dockerfile: jenkins-agent.Dockerfile
+    ports:
+      - "${JENKINS_AGENT_PORT_EXTERNAL}:${JENKINS_AGENT_PORT_INTERNAL}"
+    volumes:
+      - "jenkins-agent-data:/home/tux"
+      - "jenkins-agent-sshd-log-data:/home/tux/sshd-logs"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: "500M"
+        reservations:
+          cpus: ".5"
+          memory: "200M"
+    
+    # Enable this if you are only using this as a compose
+    #   replicas: 1
+    restart: "unless-stopped"
+    depends_on:
+      - "jenkins"
+    # Enable this only if you are using Traefik as Proxy ( L7 )
+    # depends_on:
+    #   - "traefik"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.jenkins-agent.tls=true"
+    #   - "traefik.http.routers.jenkins-agent.rule=Host(`jenkins-agent.localhost`)"
+    #   - "traefik.http.routers.jenkins-agent.entrypoints=websecure"
+    #   - "traefik.http.routers.jenkins-agent.tls.certresolver=staging"
+
+networks:
+  jenkins-nw:
+    driver: "overlay"
+    attachable: true
+
+volumes:
+    jenkins-data:
+    jenkins-agent-data:
+    jenkins-agent-sshd-log-data:
