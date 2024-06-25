@@ -15,7 +15,7 @@ RUN groupadd -g 1000 tuxtechlab && \
     useradd -u 1000 -g tux -s /bin/bash -m -d /home/tux tux && usermod -aG sudo tux
 
 # Set a password for the "tux" user ( Change "your_password" to your desired password)
-RUN echo "tuxtechl@bis@ws0me" | chpasswd
+RUN echo ${JENKINS_AGENT_PASSWORD} | chpasswd
 
 # Start sshd service when container start
 RUN service ssh start
