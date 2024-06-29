@@ -1,0 +1,92 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- WorkSpace:
+    - Gmail:
+        href: https://mail.google.com
+        icon: gmail.png
+    - Drive:
+        href: https://drive.google.com
+        icon: google-drive.png
+    - Google Meet:
+        href: https://meet.google.com
+        icon: google-meet.png
+    - Photos:
+        href: https://photos.google.com
+        icon: google-photos.png
+
+- Management:
+    - Portainer:
+        href: http://localhost/
+        icon: portainer.png
+        description: Visit TuxTechLab Portainer
+    - Ansible Tower:
+        href: http://localhost/
+        icon: ansible.png
+        description: Visit TuxTecchLab AnsibleTower
+    - Ngnix:
+        href: https://localhost:443/
+        icon: nginx.png
+        description: Visit TuxTechLab Nginx Rev-Proxy
+    - Vault:
+        href: http://localhost/
+        icon: vault.png
+        description: Visit TuxTechLab Secret Manager
+    - OpenLDAP:
+        href: http://localhost/
+        icon: https://vmssoftware.com/images/intro/product/openldap.png
+        description: TuxTechLab LDAP
+
+- Networking:
+    - Netdagger:
+
+
+- Monitoring:
+    - Grafana:
+        href: http://localhost/
+        icon: grafana.png
+        description: Visit TuxTechLab Grafana
+    - Cadvisor:
+        href: http://localhost/
+        icon: cadvisor
+        description: Visit TuxTechLab Cadvisor Panel
+    - Prometheus:
+        href: http://localhost/
+        description: Visit TuxTechLab Promethus
+
+- Socials:
+    - Twitter:
+        href: https://x.com/tuxtechlab.com
+        icon: x.png
+        description: Vist X.com - TuxTechLab
+    - LinkedIn:
+        href: http:/linkedin.com/company/tuxtechlab
+        icon: linkedin.png
+        description: Visit LinkedIn - TuxTechLab
+    - GitHub:
+        href: https://github.com/TuxTechLab
+        icon: github.png
+        description: Visit GitHub - TuxTechLab 
+    - Contact Us:
+        href: "mailto:support@tuxtechlab.com"
+        icon: google.png
+        description: Email At - support@TuxTechLab.com
+
+- Cloud & CICD:
+    - Gitea:
+        href: https://localhost:/
+        icon: gitea.png
+        description: Visit TuxTechLab Gitea
+    - Jenkins:
+        href: http://localhost:8080/
+        icon: jenkins.png
+        description: Visit TuxTechLab Jenkins
+    - SonarQube:
+        href: http://localhost/
+        icon: sonarqube.png
+        description: Visit TuxTechLab SonarQube
+    - N8N:
+        href: http://localhost/
+        icon: n8n.png
+        description: Visit TuxTechLab N8N

@@ -1,0 +1,88 @@
+---
+- Repositories:
+  - TuxTechLab:
+    - icon: si-github-#FFFFFF
+      href: https://github.com/TuxTechLab/
+  - Blogs:
+    - icon: https://blogs.tuxtechlab.com/img/logo.png
+      href: https://github.com/TuxTechLab/Blogs
+  - up:
+    - icon: https://raw.githubusercontent.com/TuxTechLab/up/master/assets/upptime-icon.svg
+      href: https://github.com/TuxTechLab/up
+  - TuxTechIaaC:
+    - icon: https://avatars.githubusercontent.com/tuxthebot
+      href: https://github.com/TuxTechLab/TuxTechIaaC
+
+- Cloud Services:
+  - Cloudflare:
+    - icon: cloudflare.png
+      href: https://www.cloudflare.com
+  - Teleport:
+    - icon: teleport.png
+      href: https://www.teleport.sh
+  - Twingate:
+    - icon: twingate.png
+      href: https://www.twingate.com
+  - Netbird:
+    - icon: https://netbird.io/_next/static/media/netbird-icon.00225e97.svg
+      href: https://app.netbird.io
+
+- Cloud Providers:
+  - Microsoft Azure:
+    - icon: azure.png
+      href: https://portal.azure.com
+  - Digital Ocean:
+    - icon: si-digitalocean-#0080FF
+      href: https://cloud.digitalocean.com
+  - CIVO:
+    - icon: si-civo-#239DFF
+      href: https://www.civo.com
+  - AWS:
+    - icon: aws.png
+      href: https://aws.amazon.com/console/
+  - GCP:
+    - icon: google.png
+      href: https://console.cloud.google.com/
+  - Linode:
+    - icon: linode.png
+      href: https://www.linode.com
+
+- Tools:
+  - Cheat.sh:
+    - hef: https://cheat.sh/:help
+      description: Linux Command CheatSheet
+  - wttr.in:
+    - href: https://www.wttr.in/:help
+      description: Get Weather Report in Terminal
+  - WorldTimeBuddy:
+    - hef: https://www.worldtimebuddy.com/
+      description: Get Time For TZs
+
+- Study Resources:
+  - KhanAcademy.com:
+    - href: https://www.khanacademy.org/
+      description: Visit www.khanacademy.org
+  - FreeCodeCamp.org:
+    - href: https://www.freecodecamp.org/
+      description: Visit www.freecodecamp.org
+  - Roadmap.sh:
+    - href: https://roadmap.sh
+      description: Learn Any Tech using roadmap.sh
+  - Quickref.me:
+    - href: https://quickref.me/
+      description: Look for Reference of Tech
+  - Docker Documentation:
+    - href: https://docs.docker.com/
+      description: Documentation - Docker
+  - K8s Docuementation:
+    - href: https://kubernetes.io/docs/home/
+      description: k8s Docs
+  - DevDocs.io:
+    - href: https://devdocs.io/
+      description: Read form Developer APIs
+  - PythonCheatSheet.Org:
+    - href: https://www.pythoncheatsheet.org/
+      description: Learn Python With Ease
+  - MadeWithMl.Org:
+    - href: https://www.madewithml.com
+      description: Read ML Fundamentals
