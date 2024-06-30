@@ -9,8 +9,7 @@
     </a>
 </div>
 
-[TuxTechLab-Infrastructure-as-a-Code](ttps://github.com/TuxTechLab/TuxTechIaaC), in-short **`TuxTechIaaC`** is repository for CNCF applications to be used in deployments
-
+[TuxTechLab-Infrastructure-as-a-Code](ttps://github.com/TuxTechLab/TuxTechIaaC), in-short **`TuxTechIaaC`** repository is made to use CNCF applications for production deployments of ITIL and Infrastructure.
 
 ## Getting Started
 
@@ -31,17 +30,16 @@
             cd 'scripts\'
 
             # Check Current Dependencies are Passing
-            "./check_docusaurus_dependencies.ps1"
+            "./check_docusaurus_dependencies.sh"
 
-            # Check Local Deploment Script Help Function
-            './manage_docusaurus_server.ps1' --help
+            # Check Local Development Script Help Function
+            './manage_docusaurus_server.sh' --help
 
-            # Local Deploment Script Start Docusaurus Server
-            "./manage_docusaurus_server.ps1" --start
+            # Local Development Script Start Docusaurus Server
+            "./manage_docusaurus_server.sh" --start
 
-            # Local Deploment Script Stop Docusaurus Server
-            # WIP : Need to fix the functionality of STOP
-            "./manage_docusaurus_server.ps1" --stop
+            # Local Development Script Stop Docusaurus Server
+            "./manage_docusaurus_server.sh" --stop
             ```
     
         - **`For Windows`**
@@ -51,14 +49,16 @@
             cd scripts/
 
 
-            # Local Deploment Script Help Function
-            ./manage_docusaurus_server.sh --help
+            # Local Development Script Help Function
+            ./manage_docusaurus_server.ps1 --help
 
-            # Local Deploment Script Start The Docusaurus Server
-            manage_docusaurus_server.sh --start
+            # Local Development Script Start The Docusaurus Server
+            manage_docusaurus_server.ps1 --start
 
-            # Local Deploment Script Stop The Docusaurus Server
-            manage_docusaurus_server.sh --stop
+            # Local Development Script Stop The Docusaurus Server
+            # WIP : Need to fix the functionality of STOP of Docusaurus Server via Powershell
+            # Currently --stop is disabled in powershell management script.
+            manage_docusaurus_server.ps1 --stop
             ```
 
 - Laucnth browser and hit `http://localhost:3000` to access the development server.
