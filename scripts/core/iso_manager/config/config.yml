@@ -1,0 +1,91 @@
+tags:
+  - name: "Linux Distributions"
+    description: "Popular Linux distributions"
+    icon: "🐧"
+  - name: "Virtualization"
+    description: "Hypervisors and virtualization tools"
+    icon: "💻"
+  - name: "Networking"
+    description: "Network operating systems and tools"
+    icon: "🌐"
+
+isos:
+
+##### Linux Distributions
+
+## Ubuntu
+  - name: "Ubuntu Server"
+    version: "22.04 LTS"
+    platform: "amd64"
+    fileName: "ubuntu-22.04.3-live-server-amd64.iso"
+    checkSum: "a4acfda10b18da50e2ec50ccafec4f14f0475a1f327e5fd9c1c0cceecc7821a3"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-live-server-amd64.iso"
+    downloadLocation: "linux/ubuntu/22.04"
+    tags: ["Linux Distributions"]
+
+##### Virtualization
+
+## Proxmox
+  - name: "Proxmox VE Bare Metal Enterprise 9.0-1"
+    version: "9.0-1"
+    platform: "amd64:x86_64"
+    fileName: "proxmox-ve_9.0-1.iso"
+    checkSum: "228f948ae696f2448460443f4b619157cab78ee69802acc0d06761ebd4f51c3e"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://enterprise.proxmox.com/iso/proxmox-ve_9.0-1.iso"
+    downloadLocation: "hypervisor/bare-metal/proxmox/9.0-1"
+    tags: ["Linux Distributions","Virtualization"]
+
+  - name: "Proxmox VE Bare Metal Enterprise 8.4-1"
+    version: "8.4-1"
+    platform: "amd64:x86_64"
+    fileName: "proxmox-ve_8.4-1.iso"
+    checkSum: "d237d70ca48a9f6eb47f95fd4fd337722c3f69f8106393844d027d28c26523d8"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://enterprise.proxmox.com/iso/proxmox-ve_8.4-1.iso"
+    downloadLocation: "hypervisor/bare-metal/proxmox/8.4-1"
+    tags: ["Linux Distributions","Virtualization"]
+
+  - name: "Proxmox VE Bare Metal Enterprise 7.4-1"
+    version: "7.4-1"
+    platform: "amd64:x86_64"
+    fileName: "proxmox-ve_7.4-1.iso"
+    checkSum: "55b672c4b0d2bdcbff9910eea43df3b269aaab3f23e7a1df18b82d92eb995916"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://enterprise.proxmox.com/iso/proxmox-ve_7.4-1.iso"
+    downloadLocation: "hypervisor/bare-metal/proxmox/7.4-1"
+    tags: ["Linux Distributions","Virtualization"]
+
+  - name: "Proxmox VE Bare Metal Enterprise 6.4-1"
+    version: "6.4-1"
+    platform: "amd64:x86_64"
+    fileName: "proxmox-ve_6.4-1.iso"
+    checkSum: "55b672c4b0d2bdcbff9910eea43df3b269aaab3f23e7a1df18b82d92eb995916"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://enterprise.proxmox.com/iso/proxmox-ve_6.4-1.iso"
+    downloadLocation: "hypervisor/bare-metal/proxmox/6.4-1"
+    tags: ["Linux Distributions","Virtualization"]
+
+##### Networking
+
+## OpenWRT
+  - name: "OpenWRT VM"
+    version: "24.10.0"
+    platform: "x86/64"
+    fileName: "openwrt-x86-64-generic-ext4-combined-efi.img.gz"
+    checkSum: "c4fc56cbde3908b05da4025b30aaa221ee01cffd1fd998da596fe52a1f9ef018"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://downloads.openwrt.org/snapshots/targets/x86/64/openwrt-x86-64-generic-ext4-combined-efi.img.gz"
+    downloadLocation: "linux/vm/openwrt/23.05.2"
+    tags: ["Virtualization", "Linux Distributions"]
+
+  - name: "OpenWRT TP A6 v3 Router Firmware"
+    version: "24.10.0"
+    platform: "x86/64"
+    fileName: "openwrt-24.10.0-ramips-mt7621-tplink_archer-a6-v3-squashfs-factory.bin"
+    checkSum: "d76a3549013ef4510a0da5dc26c4537fd66d82a69175101dfade07d001f68061"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://downloads.openwrt.org/releases"
+    downloadLocation: "networking/router/openwrt/24.10.0"
+    tags: ["Networking", "Linux Distributions"]
