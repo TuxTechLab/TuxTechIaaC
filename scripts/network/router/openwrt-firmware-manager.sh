@@ -1,8 +1,20 @@
 #!/bin/bash
 
+# Configuration
+DEVICE_MODEL="Archer C6 v3"
+FIRMWARE_DIR="../../../iso"
+DOWNLOAD_DIR="${FIRMWARE_DIR}/openwrt"
+COLORS_SCRIPT="../../core/colors.sh"
+
+# Parse command line arguments
+CHECK_ONLY=false
+FORCE=false
+DOWNLOAD=false
+VERSION_ARG=""
+
 # Import Terminal Colors
-if [ -f "./colors.sh" ]; then
-    source ./colors.sh
+if [ -f "${COLORS_SCRIPT}" ]; then
+    source "${COLORS_SCRIPT}"
 else
     # Fallback colors if colors.sh is not available
     print_info() { echo "[i] $1"; }
@@ -81,11 +93,6 @@ clean_version() {
     return 0
 }
 
-# Configuration
-DEVICE_MODEL="Archer C6 v3"
-FIRMWARE_DIR="./openwrt-firmware"
-DOWNLOAD_DIR="${FIRMWARE_DIR}/downloads"
-
 # Create necessary directories
 mkdir -p "${FIRMWARE_DIR}" "${DOWNLOAD_DIR}"
 
@@ -110,12 +117,6 @@ show_help() {
     echo "  $0 -d               Will prompt for version"
     exit 0
 }
-
-# Parse command line arguments
-CHECK_ONLY=false
-FORCE=false
-DOWNLOAD=false
-VERSION_ARG=""
 
 # Process command line arguments
 while [[ $# -gt 0 ]]; do
