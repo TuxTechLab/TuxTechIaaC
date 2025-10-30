@@ -2,7 +2,7 @@
 
 # Configuration
 DEVICE_MODEL="Archer C6 v3"
-FIRMWARE_DIR="../../../iso"
+FIRMWARE_DIR="../../../iso/linux"
 DOWNLOAD_DIR="${FIRMWARE_DIR}/openwrt"
 COLORS_SCRIPT="../../core/colors.sh"
 
@@ -183,6 +183,39 @@ if [ -z "$CURRENT_VERSION" ]; then
 fi
 
 print_info "Checking for updates for OpenWrt version: $CURRENT_VERSION"
+
+# Function to get available versions between current and latest
+get_available_versions() {
+    local current=$1
+    local latest=$2
+    local versions=()
+    
+    # Generate versions between current and latest
+    local major=$(echo $current | cut -d. -f1)
+    local minor=$(echo $current | cut -d. -f2)
+    local patch=$(echo $current | cut -d. -f3)
+    
+    local latest_major=$(echo $latest | cut -d. -f1)
+    local latest_minor=$(echo $latest | cut -d. -f2)
+    local latest_patch=$(echo $latest | cut -d. -f3)
+    
+    # Add all versions from current to latest
+    for m in $(seq $major $latest_major); do
+        local min_minor=$((m == major ? minor : 0))
+        local max_minor=$((m == latest_major ? latest_minor : 99))
+        
+        for n in $(seq $min_minor $max_minor); do
+            local min_patch=$((m == major && n == minor ? patch : 0))
+            local max_patch=$((m == latest_major && n == latest_minor ? latest_patch : 99))
+            
+            for p in $(seq $min_patch $max_patch); do
+                versions+=("$m.$n.$p")
+            done
+        done
+    done
+    
+    echo "${versions[@]}"
+}
 
 # Function to get latest firmware version from OpenWrt website
 get_latest_version() {
@@ -464,20 +497,99 @@ main() {
         echo
         
     if [ "$CHECK_ONLY" = true ]; then
-            echo "Run with -d to download the update"
-            exit 0
+            show_update_info "$CURRENT_VERSION" "$LATEST_VERSION"
+            return 0
         fi
         
-        if [ "$DOWNLOAD" = true ] || [ "$FORCE" = true ]; then
-            echo "Downloading update..."
+        if [ "$DOWNLOAD" = true ]; then
+            # Show available versions
+            echo
+            print_info "Available versions between $CURRENT_VERSION and $LATEST_VERSION:"
+            local versions=($(get_available_versions "$CURRENT_VERSION" "$LATEST_VERSION"))
+            
+            # Display versions in a numbered list
+            for i in "${!versions[@]}"; do
+                if [ "${versions[$i]}" = "$LATEST_VERSION" ]; then
+                    echo "  $((i+1)). ${versions[$i]} (latest)"
+                else
+                    echo "  $((i+1)). ${versions[$i]}"
+                fi
+            done
+            
+            # Prompt for version selection
+            echo
+            read -p "Enter version number to download [${#versions[@]} for $LATEST_VERSION]: " version_choice
+            
+            # Default to latest version if no input
+            if [ -z "$version_choice" ]; then
+                version_choice=${#versions[@]}
+            fi
+            
+            # Validate input
+            if ! [[ "$version_choice" =~ ^[0-9]+$ ]] || [ "$version_choice" -lt 1 ] || [ "$version_choice" -gt "${#versions[@]}" ]; then
+                print_error "Invalid selection. Please enter a number between 1 and ${#versions[@]}"
+                return 1
+            fi
+            
+            # Get selected version (adjusting for 0-based array index)
+            local selected_version="${versions[$((version_choice-1))]}"
+            
+            # Download the selected version
+            print_info "Selected version: $selected_version"
+            download_firmware "$selected_version"
+            exit $?
+        elif [ "$FORCE" = true ]; then
+            # Force download without prompt
             download_firmware "$LATEST_VERSION"
             exit $?
         else
+            # Interactive mode
             read -p "Do you want to download OpenWrt $LATEST_VERSION? [y/N] " -n 1 -r
             echo
             if [[ $REPLY =~ ^[Yy]$ ]]; then
-                download_firmware "$LATEST_VERSION"
-                exit $?
+                if [ $compare_result -eq 2 ]; then
+                    print_warning "Update available: $CURRENT_VERSION → $LATEST_VERSION"
+                    
+                    # Show available versions
+                    echo
+                    print_info "Available versions between $CURRENT_VERSION and $LATEST_VERSION:"
+                    local versions=($(get_available_versions "$CURRENT_VERSION" "$LATEST_VERSION"))
+                    
+                    # Display versions in a numbered list
+                    for i in "${!versions[@]}"; do
+                        if [ "${versions[$i]}" = "$LATEST_VERSION" ]; then
+                            echo "  $((i+1)). ${versions[$i]} (latest)"
+                        else
+                            echo "  $((i+1)). ${versions[$i]}"
+                        fi
+                    done
+                    
+                    # Prompt for version selection
+                    echo
+                    read -p "Enter version number to download [${#versions[@]} for $LATEST_VERSION]: " version_choice
+                    
+                    # Default to latest version if no input
+                    if [ -z "$version_choice" ]; then
+                        version_choice=${#versions[@]}
+                    fi
+                    
+                    # Validate input
+                    if ! [[ "$version_choice" =~ ^[0-9]+$ ]] || [ "$version_choice" -lt 1 ] || [ "$version_choice" -gt "${#versions[@]}" ]; then
+                        print_error "Invalid selection. Please enter a number between 1 and ${#versions[@]}"
+                        return 1
+                    fi
+                    
+                    # Get selected version (adjusting for 0-based array index)
+                    local selected_version="${versions[$((version_choice-1))]}"
+                    
+                    # Download the selected version
+                    print_info "Selected version: $selected_version"
+                    download_firmware "$selected_version"
+                    return $?
+                else
+                    download_firmware "$LATEST_VERSION"
+                    exit $?
+                fi
             fi
         fi
     else
