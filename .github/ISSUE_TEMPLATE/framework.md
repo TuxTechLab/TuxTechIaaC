@@ -1,8 +1,8 @@
 ---
-name: Cal.com/platform request
-about: Suggest a feature or bug report for cal.com/platform
+name: TuxTechIaaC framework request
+about: Suggest a feature or bug report for TuxTechIaaC framekwork
 title: ""
-labels: ["platform", "🚨 needs approval"]
+labels: ["framework", "🚨 needs approval"]
 assignees: ""
 ---
 
