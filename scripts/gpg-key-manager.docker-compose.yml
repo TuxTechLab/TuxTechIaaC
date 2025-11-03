@@ -1,0 +1,34 @@
+services:
+  gpg-manager:
+    build:
+      context: ..
+      dockerfile: scripts/core/gpg_manager/Dockerfile
+    container_name: gpg-manager
+    ports:
+      - "5000:5000"
+    volumes:
+      - gpg_data:/home/appuser/.gnupg
+      - ../:/app/scripts
+    restart: unless-stopped
+    environment:
+      - FLASK_APP=scripts.utils.gpgManager:app
+      - FLASK_ENV=production
+      - PYTHONPATH=/app
+      - GNUPGHOME=/home/appuser/.gnupg
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /app/scripts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    networks:
+      - gpg-network
+
+networks:
+  gpg-network:
+    driver: bridge
+
+volumes:
+  gpg_data:
+    driver: local

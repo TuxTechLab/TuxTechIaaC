@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-8">
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-6">Git & GitHub GPG Setup</h2>
+        
+        {% if success %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div>
+                        <strong class="font-bold">Success!</strong>
+                        <span class="block sm:inline"> GPG configuration updated for key ending in {{ key_fingerprint[-8:] }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GPG Key Management Section -->
+            <div class="mb-8">
+                <h3 class="text-2xl font-semibold mb-6">GPG Key Management</h3>
+                
+                <!-- Option 1: Download GPG Keys -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+                    <h4 class="text-xl font-semibold mb-6 text-center">Option 1: Download GPG Keys (Recommended)</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Public Key Download -->
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-lg font-medium text-gray-900">Public Key</h4>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    No passphrase needed
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Download the public GPG key to share with others or add to services like GitHub.
+                            </p>
+                            <a href="{{ url_for('export_key', fingerprint=key_fingerprint, secret=False) }}" 
+                               class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <i class="fas fa-download mr-2"></i> Download Public Key
+                            </a>
+                        </div>
+                        
+                        <!-- Secret Key Download -->
+                        <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-lg font-medium text-gray-900">Secret Key</h4>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Passphrase required
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Download the secret GPG key to use for signing commits on other machines.
+                            </p>
+                            <a href="{{ url_for('export_key', fingerprint=key_fingerprint, secret=True) }}" 
+                               class="w-full flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                                <i class="fas fa-key mr-2"></i> Download Secret Key
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-center text-gray-500">
+                        <i class="fas fa-info-circle mr-1"></i> After downloading, skip to the <a href="#setup-instructions" class="text-blue-600 hover:underline">setup instructions</a> below.
+                    </p>
+                </div>
+                
+                <!-- OR Divider -->
+                <div class="flex items-center justify-center my-8">
+                    <div class="border-t border-gray-300 w-full"></div>
+                    <div class="px-4 text-gray-500 font-medium">OR</div>
+                    <div class="border-t border-gray-300 w-full"></div>
+                </div>
+                
+                <!-- Option 2: Export GPG Keys from Container -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+                    <h4 class="text-xl font-semibold mb-6 text-center">Option 2: Export GPG Keys from Container</h4>
+                    <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r">
+                        <h4 class="font-medium text-blue-800 mb-2">Export GPG Keys</h4>
+                        <p class="text-sm text-gray-700 mb-3">Run these commands in your terminal to export the keys from the container:</p>
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded-md overflow-x-auto">
+                            <pre class="whitespace-pre-wrap text-sm">{{ setup_instructions.export_instructions|trim }}</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Setup Instructions -->
+                <div id="setup-instructions" class="mt-12">
+                    <h3 class="text-2xl font-semibold mb-6">Setup Instructions</h3>
+                    <div class="space-y-6">
+                        
+                        <!-- Import Instructions -->
+                        <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-r">
+                            <h4 class="font-medium text-green-800 mb-2">2. Import GPG Keys on Local Machine</h4>
+                            <p class="text-sm text-gray-700 mb-3">Import the exported keys to your local GPG keyring</p>
+                            <div class="bg-gray-800 text-gray-100 p-3 rounded-md overflow-x-auto">
+                                <pre class="whitespace-pre-wrap text-sm">{{ setup_instructions.import_instructions|trim }}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- Git Configuration -->
+                        <div class="bg-purple-50 border-l-4 border-purple-400 p-4 rounded-r">
+                            <h4 class="font-medium text-purple-800 mb-2">3. Configure Git to Use Your GPG Key</h4>
+                            <p class="text-sm text-gray-700 mb-3">Set up Git to sign commits with your GPG key:</p>
+                            <div class="bg-gray-800 text-gray-100 p-3 rounded-md overflow-x-auto">
+                                <pre class="whitespace-pre-wrap text-sm">{{ setup_instructions.git_config|trim }}</pre>
+                            </div>
+                        </div>
+                        
+                        <!-- GitHub Setup -->
+                        <div class="bg-green-50 border-l-4 border-green-600 p-4 rounded-r">
+                            <h4 class="font-medium text-green-800 mb-2">4. GitHub Setup</h4>
+                            <p class="text-sm text-gray-700 mb-3">To verify your commits on GitHub, add your public key to your GitHub account:</p>
+                            
+                            <div class="bg-white p-3 rounded border border-gray-300 mb-3">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h5 class="font-medium text-sm">Your Public Key</h5>
+                                    <button onclick="copyToClipboard('{{ public_key }}')" 
+                                            class="text-xs bg-blue-100 hover:bg-blue-200 text-blue-800 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-copy mr-1"></i> Copy
+                                    </button>
+                                </div>
+                                <div class="bg-gray-100 p-2 rounded overflow-x-auto">
+                                    <pre class="text-xs text-gray-800 whitespace-pre-wrap break-all">{{ public_key }}</pre>
+                                </div>
+                            </div>
+                            
+                            <ol class="list-decimal pl-5 space-y-1.5 text-sm text-gray-700 mb-3">
+                                <li>Go to <a href="https://github.com/settings/keys" target="_blank" class="text-blue-600 hover:underline">GitHub SSH and GPG keys settings</a></li>
+                                <li>Click "New GPG key"</li>
+                                <li>Paste the public key above and click "Add GPG key"</li>
+                                <li>Verify your GitHub password if prompted</li>
+                            </ol>
+                            
+                            <div class="mt-3 bg-blue-50 border-l-4 border-blue-400 p-3 rounded-r">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-info-circle text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <p class="text-xs text-blue-700">
+                                            <strong>Note:</strong>
+                                            If you don't have access, you can still verify locally by checking the commit signature with:
+                                            <code class="bg-gray-200 px-1 rounded text-xs">git log --show-signature -1</code>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="text-xs text-gray-600 mt-2">
+                                If you see "gpg: Signature made..." in the output and the commit is verified on GitHub, your setup is working correctly!
+                            </p>
+                        </div>
+                        
+                        <!-- Test Commit -->
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r">
+                            <h4 class="font-medium text-yellow-800 mb-2">4. Test GPG-Signed Commit</h4>
+                            <p class="text-sm text-gray-700 mb-3">Follow these steps to test your GPG key with a real commit:</p>
+                            
+                            <div class="space-y-4">
+                                <!-- Step 1: Fork the Test Repository -->
+                                <div class="bg-white p-4 rounded border border-gray-200">
+                                    <h5 class="font-medium text-gray-900 mb-2">Step 1: Fork the Test Repository</h5>
+                                    <ol class="list-decimal pl-5 space-y-1 text-sm text-gray-700">
+                                        <li>Go to <a href="https://github.com/TuxTechLab/test-gpg-sign" target="_blank" class="text-blue-600 hover:underline">TuxTechLab/test-gpg-sign</a></li>
+                                        <li>Click the "Fork" button in the top-right corner</li>
+                                        <li>Select your personal account as the destination</li>
+                                    </ol>
+                                </div>
+
+                                <!-- Step 2: Clone and Configure -->
+                                <div class="bg-white p-4 rounded border border-gray-200">
+                                    <h5 class="font-medium text-gray-900 mb-2">Step 2: Clone and Configure</h5>
+                                    <div class="bg-gray-800 text-gray-100 p-3 rounded-md overflow-x-auto mb-2">
+                                        <pre class="whitespace-pre-wrap text-sm"># Replace YOUR-USERNAME with your GitHub username
+git clone git@github.com:YOUR-USERNAME/test-gpg-sign.git
+cd test-gpg-sign
+
+# Verify the remote is set to your fork
+git remote -v  # Should show your fork as 'origin'
+
+# Add the original repository as 'upstream'
+git remote add upstream 'https://github.com:YOUR-USERNAME/test-gpg-sign.git'
+
+# Verify both remotes are set correctly
+git remote -v
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Make a Test Commit -->
+                                <div class="bg-white p-4 rounded border border-gray-200">
+                                    <h5 class="font-medium text-gray-900 mb-2">Step 3: Make a Test Commit</h5>
+                                    <div class="bg-gray-800 text-gray-100 p-3 rounded-md overflow-x-auto mb-2">
+                                        <pre class="whitespace-pre-wrap text-sm"># Create a test file
+echo "# GPG Test Commit by $(git config user.name)" > gpg-test-$(date +%s).txt
+
+# Add and commit with GPG signing
+git add .
+git commit -S -m "Test GPG signed commit"
+
+# Push to your fork
+git push origin main</pre>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Create Pull Request -->
+                                <div class="bg-white p-4 rounded border border-gray-200">
+                                    <h5 class="font-medium text-gray-900 mb-2">Step 4: Create Pull Request</h5>
+                                    <div class="mb-3 text-sm text-gray-700">
+                                        <p class="mb-2">Follow these steps to create your pull request:</p>
+                                    </div>
+                                    <ol class="list-decimal pl-5 space-y-2 text-sm text-gray-700">
+                                        <li>Go to your forked repository on GitHub</li>
+                                        <li>Click on "Pull requests" tab, then "New pull request"</li>
+                                        <li>Set base repository to <code>TuxTechLab/test-gpg-sign</code> and base: <code>main</code></li>
+                                        <li>Set head repository to <code><i>your-username/test-gpg-sign</i></code> and compare: <code>main</code></li>
+                                        <li>Click "Create pull request"</li>
+                                        <li>The PR template will open automatically. Please ensure you:
+                                            <ul class="list-disc pl-5 mt-1 space-y-1">
+                                                <li>Use the title: <code>[GPG - SUCCESS] GPG Key Setup Verification</code></li>
+                                                <li>Fill in your GPG key details (last 8 characters of Key ID and fingerprint)</li>
+                                                <li>Attach screenshots showing:
+                                                    <ul class="list-[circle] pl-5 mt-1 space-y-1">
+                                                        <li>Verified commit status from GitHub</li>
+                                                        <li>Your GPG key configuration</li>
+                                                        <li>Local Git GPG configuration</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>Click "Create pull request" to submit</li>
+                                    </ol>
+                                    
+                                    <div class="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-r">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-exclamation-circle text-yellow-500"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <h4 class="text-sm font-medium text-yellow-800">Troubleshooting Tips</h4>
+                                                <ul class="list-disc pl-5 mt-1 text-xs text-yellow-700 space-y-1">
+                                                    <li>If you encounter branch protection rules, push your changes to a new branch first</li>
+                                                    <li>If your commit doesn't show as 'Verified', ensure you've configured Git to use your GPG key</li>
+                                                    <li>Verify your GPG key is added to your GitHub account in Settings > SSH and GPG keys</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-3 text-center">
+                                        <p class="text-xs text-gray-500">
+                                            <span class="font-medium">Alternative:</span> You can also create an issue using the "GPG Verification" template in the Issues tab
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="mt-3 bg-blue-50 border-l-4 border-blue-400 p-3 rounded-r">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0">
+                                                <i class="fas fa-info-circle text-blue-500"></i>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-xs text-blue-700">
+                                                    <strong>Note:</strong> After submission, a maintainer will review your PR. This is a required step to verify your GPG setup is properly configured.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <i class="fas fa-info-circle text-blue-500"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-blue-700">
+                                            <strong>Note:</strong> You can verify your commit was signed with:
+                                            <code class="bg-gray-200 px-1.5 py-0.5 rounded text-xs">git log --show-signature -1</code>
+                                            Look for <code>Good signature</code> in the output.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+        {% else %}
+            <div class="mb-6">
+                <h3 class="text-lg font-medium mb-4">Select a GPG key to use with Git:</h3>
+                
+                <form method="POST" action="{{ url_for('git_setup') }}" class="space-y-4">
+                    <div class="space-y-4">
+                        {% for key in keys %}
+                        <div class="flex items-center p-4 border rounded-md hover:bg-gray-50">
+                            <input type="radio" id="key-{{ loop.index }}" name="key_fingerprint" value="{{ key.fingerprint }}" 
+                                   class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300" required>
+                            <label for="key-{{ loop.index }}" class="ml-3 block">
+                                <span class="block font-medium text-gray-700">
+                                    {{ key.uids[0] if key.uids else 'Unnamed Key' }}
+                                </span>
+                                <span class="block text-sm text-gray-500 font-mono">
+                                    {{ key.fingerprint }}
+                                </span>
+                                <span class="block text-xs text-gray-500 mt-1">
+                                    Created: {{ key.created|timestamp_to_date }} | 
+                                    Expires: {% if key.expires %}{{ key.expires|timestamp_to_date }}{% else %}Never{% endif %}
+                                </span>
+                            </label>
+                        </div>
+                        {% else %}
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-yellow-700">
+                                        No GPG keys found. Please <a href="{{ url_for('generate_key') }}" class="font-medium text-yellow-700 underline">generate a key</a> first.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if keys %}
+                    <div class="mt-6">
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                            <i class="fas fa-key mr-2"></i>Configure Git with Selected Key
+                        </button>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+            
+            <div class="mt-8 border-t pt-6">
+                <h3 class="text-lg font-medium mb-2">How to use GPG with Git</h3>
+                <p class="mb-4">After setup, Git will automatically sign all your commits with your GPG key. To verify signed commits:</p>
+                <div class="bg-gray-100 p-4 rounded-md font-mono text-sm mb-4">
+                    <p># View commit with signature</p>
+                    <p>git log --show-signature -1</p>
+                    <p class="mt-2"># Verify a specific commit</p>
+                    <p>git verify-commit HEAD</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        // Show success message
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+        button.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+        button.classList.add('bg-green-500', 'hover:bg-green-600');
+        
+        // Revert button after 2 seconds
+        setTimeout(function() {
+            button.innerHTML = originalText;
+            button.classList.remove('bg-green-500', 'hover:bg-green-600');
+            button.classList.add('bg-blue-500', 'hover:bg-blue-600');
+        }, 2000);
+    }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+        alert('Failed to copy to clipboard. Please copy manually.');
+    });
+}
+</script>
+{% endblock %}
