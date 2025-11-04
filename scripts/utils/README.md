@@ -1,12 +1,3 @@
-# 📋 Table of Contents
-
-- [TuxTech IaaC - Utilities](#tuxtech-iac-utilities)
-- [Available Utilities](#available-utilities)
-- [Getting Started](#getting-started)
-  - [Common Prerequisites](#common-prerequisites)
-- [Contributing](#contributing)
-- [License](#license)
-
 # TuxTech IaaC - Utilities
 
 This directory contains various utility scripts and tools that are part of the TuxTech Infrastructure as Code (IaaC) suite. Each utility is designed to handle specific infrastructure management tasks.
