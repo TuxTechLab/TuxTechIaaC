@@ -21,7 +21,7 @@ isos:
     checkSum: "a4acfda10b18da50e2ec50ccafec4f14f0475a1f327e5fd9c1c0cceecc7821a3"
     checkSumAlgo: "sha256"
     downloadLink: "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-live-server-amd64.iso"
-    downloadLocation: "linux/ubuntu/22.04"
+    downloadLocation: "linux/vm/ubuntu/22.04"
     tags: ["Linux Distributions"]
 
   - name: "Ubuntu cloud-init Image"
@@ -31,9 +31,8 @@ isos:
     checkSum: "3a31943b7229f7d3f5ecad5a807c20ba2f2a8e2c1808793806b2a12097c3d55e"
     checkSumAlgo: "sha256"
     downloadLink: "https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img"
-    downloadLocation: "linux/ubuntu/22.04"
+    downloadLocation: "linux/vm/ubuntu/22.04"
     tags: ["Linux Distributions"]
-
 
 ##### Virtualization
 
@@ -78,12 +77,23 @@ isos:
     downloadLocation: "hypervisor/bare-metal/proxmox/6.4-1"
     tags: ["Linux Distributions","Virtualization"]
 
+## Kubernetes
+  - name: "Talos OS"
+    version: "1.11.3"
+    platform: "amd64"
+    fileName: "metal-amd64.iso"
+    checkSum: "983836e7e0b650a86dcb988003dd908bf6bc67115a850669fc42d48581e21ae6"
+    checkSumAlgo: "sha256"
+    downloadLink: "https://github.com/siderolabs/talos/releases/download/v1.11.3/metal-amd64.iso"
+    downloadLocation: "containerization/k8s/talos/1.11.3"
+    tags: ["Linux Distributions","Virtualization"]
+
 ##### Networking
 
 ## OpenWRT
   - name: "OpenWRT VM"
     version: "24.10.0"
-    platform: "x86/64"
+    platform: "x86_64"
     fileName: "openwrt-x86-64-generic-ext4-combined-efi.img.gz"
     checkSum: "429fba6dc006d66deadd6287418cd1e64152ba903b7db0317e30c344b4bbeca5"
     checkSumAlgo: "sha256"
@@ -93,7 +103,7 @@ isos:
 
   - name: "OpenWRT TP A6 v3 Router Firmware"
     version: "24.10.0"
-    platform: "x86/64"
+    platform: "x86_64"
     fileName: "openwrt-24.10.0-ramips-mt7621-tplink_archer-a6-v3-squashfs-factory.bin"
     checkSum: "d76a3549013ef4510a0da5dc26c4537fd66d82a69175101dfade07d001f68061"
     checkSumAlgo: "sha256"
